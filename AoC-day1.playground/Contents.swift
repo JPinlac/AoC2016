@@ -48,7 +48,7 @@ func checkRepeat() -> Void {
         }
         currentLocation.log.forEach({place in
             if spot == place {
-                print("\(spot) Distance \(abs(spot[0]) + abs(spot[1]))")
+                print("First repeat spot: \(spot) Distance \(abs(spot[0]) + abs(spot[1]))")
                 currentLocation.repeatFound = true
             }
         })
@@ -94,5 +94,4 @@ parsedArray.forEach({ item in
     }
 })
 
-print(currentLocation)
-print(abs(currentLocation.x) + abs(currentLocation.y))
+print("Final distance \(abs(currentLocation.x) + abs(currentLocation.y))")
