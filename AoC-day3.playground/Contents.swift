@@ -8,7 +8,7 @@ var triangleCount = 0
 var triangleCount2 = 0
 var part2TriangleArray = [[Int]](arrayLiteral: [],[],[])
 var row = 0
-triangles.enumerateLines { (line, hi) in
+triangles.enumerateLines { (line, _) in
     var singleItemArray = line.components(separatedBy: CharacterSet.whitespaces)
         .filter{
             $0 != ""
