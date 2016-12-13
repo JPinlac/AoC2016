@@ -3,15 +3,16 @@
 import UIKit
 
 guard let rooms = try? String(contentsOf: #fileLiteral(resourceName: "inputDay4.txt")) else { fatalError() }
-
-//let rooms = "aaaaa-bbb-z-y-x-123[abxyz]\na-b-c-d-e-f-g-h-987[abcde]\nnot-a-real-room-404[oarel]\ntotally-real-room-200[decoy]"
+//let rooms = "aaaaa-bbb-z-y-x-123[abxyz]\na-b-c-d-e-f-g-h-987[abcde]\nnot-a-real-room-404[oarel]\ntotally-real-room-200[decoy]\nqzmt-zixmtkozy-ivhz-343[AHHHH]"
 
 var realRoomIDSum = 0
+var realRoomData = [String]()
 rooms.enumerateLines { (room, _) in
     let range = room.rangeOfCharacter(from: CharacterSet.decimalDigits)!
     let distance = room.distance(from: room.startIndex, to: range.lowerBound)
     let index = room.index(room.startIndex, offsetBy: distance - 1)
-    let name = room.substring(to: index).replacingOccurrences(of: "-", with: "")
+    let encryptedRoom = room.substring(to: index)
+    let name = encryptedRoom.replacingOccurrences(of: "-", with: "")
     
     var charCount = [Character : Int]()
     for char in name.characters {
@@ -25,6 +26,7 @@ rooms.enumerateLines { (room, _) in
     let sectorStart = room.index(room.startIndex, offsetBy: distance)
     let sectorEnd = room.index(room.startIndex, offsetBy: distance + 3)
     let sectorID = Int(room.substring(with: sectorStart..<sectorEnd))!
+    
     
     var code = ""
     let sortedCharCount = charCount.sorted{
@@ -46,7 +48,28 @@ rooms.enumerateLines { (room, _) in
     let checksum = room.substring(with: start..<end)
     
     if checksum == code {
+        //Part 2 solution
+        var decryptedRoom = ""
+        for char in encryptedRoom.utf8 {
+            var decryptedChar = char
+            
+            for roll in 0...sectorID {
+                if decryptedChar == 45 || roll == sectorID {
+                    decryptedRoom += String(Character(UnicodeScalar(decryptedChar)))
+                    break
+                }
+                if decryptedChar == 122 {
+                    decryptedChar = 97
+                } else {
+                    decryptedChar += 1
+                }
+            }
+        }
+        print("#\(sectorID) \(decryptedRoom)")
         realRoomIDSum += sectorID
+        realRoomData.append(room)
     }
+    
 }
 print(realRoomIDSum)
+
