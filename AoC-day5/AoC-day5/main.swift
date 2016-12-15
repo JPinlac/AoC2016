@@ -26,6 +26,9 @@ func MD5(string: String) -> String? {
 let doorID = "wtnhxymk"
 var password = ""
 var count = 0
+var part2Count = 0
+var part2Password: [String] = ["","","","","","","",""]
+var part2Position: [String] = ["0","1","2","3","4","5","6","7"]
 for character in 0..<8 {
     var firstFiveHash = ""
     repeat {
@@ -35,8 +38,17 @@ for character in 0..<8 {
         
         if firstFiveHash == "00000" {
             print("hash: \(hash)")
-            password += hash.substring(with: hash.index(hash.startIndex, offsetBy: 5)..<hash.index(hash.startIndex, offsetBy: 6))
+            let firstChar = hash.substring(with: hash.index(hash.startIndex, offsetBy: 5)..<hash.index(hash.startIndex, offsetBy: 6))
+            if part2Position.contains(firstChar) {
+                part2Position[Int(firstChar)!] = ""
+                part2Password[Int(firstChar)!] = hash.substring(with: hash.index(hash.startIndex, offsetBy: 6)..<hash.index(hash.startIndex, offsetBy: 7))
+                part2Count += 1
+            }
+            if password.characters.count <= 8 {
+                password += firstChar
+            }
         }
-    } while firstFiveHash != "00000"
+    } while part2Count != 8
 }
-print(password)
+print("Part 1: \(password)")
+print("Part 2: \(part2Password)")
