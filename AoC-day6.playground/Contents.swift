@@ -19,13 +19,16 @@ input.enumerateLines { (line, _) in
     }
 }
 var password = ""
+var part2Password = ""
 for dict in charCount {
     print(dict)
     for (char, count) in dict {
-        let max = dict.values.max()!
-        if count == max {
+        if count == dict.values.max()! {
             password += String(char)
+        }
+        if count == dict.values.min()!{
+            part2Password += String(char)
         }
     }
 }
-print(password)
+print("P1: \(password) P2: \(part2Password)")
